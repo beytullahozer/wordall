@@ -1,0 +1,108 @@
+//
+//  ViewController.swift
+//  wordall
+//
+//  Created by Beytullah Özer on 17.04.2022.
+//
+
+import UIKit
+
+
+// UI Design
+// Keyboard
+// Game Board
+// Blue / Purple
+
+
+class MainViewController: UIViewController {
+
+    let correctAnswer = "After"
+    
+    private var guesses: [[Character?]] = Array(
+        repeating: Array(repeating: nil, count: 5),
+        count: 6)
+    
+    let keyboardVC = KeyboardViewController()
+    let boardVC = BoardViewController()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+//        view.backgroundColor = UIColor(red: 0.00, green: 0.05, blue: 0.09, alpha: 1.00)
+        view.backgroundColor = UIColor(red: 0.06, green: 0.07, blue: 0.05, alpha: 1.00)
+
+        addChildren()
+
+    }
+    
+    private func addChildren(){
+        
+        addChild(keyboardVC)
+        keyboardVC.didMove(toParent: self)
+        keyboardVC.delegate = self
+        keyboardVC.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(keyboardVC.view)
+        
+        addChild(boardVC)
+        boardVC.didMove(toParent: self)
+        boardVC.dataSource = self
+        boardVC.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(boardVC.view)
+        
+        addConstraints()
+    }
+    
+    func addConstraints(){
+        NSLayoutConstraint.activate([
+            
+            boardVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            boardVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            boardVC.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            boardVC.view.bottomAnchor.constraint(equalTo: keyboardVC.view.topAnchor),
+            boardVC.view.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.62),
+            
+            keyboardVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            keyboardVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            keyboardVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+        ])
+    }
+
+    
+
+}
+
+extension MainViewController: KeyboardViewControllerDelegate{
+    
+    func keyboardViewController(_ vc: KeyboardViewController, didTapKey letter: Character){
+        print(letter)
+        
+        // UPDATE GUESS
+        
+        var stop = false
+        
+        for i in 0..<guesses.count{
+            for j in 0..<guesses[i].count{
+                if guesses[i][j] == nil{
+                    guesses[i][j] = letter
+                    stop = true
+                    break
+                }
+            }
+            
+            if stop {
+                break
+            }
+        }
+        boardVC.reloadData()
+    }
+    
+}
+
+extension MainViewController: BoardViewControllerDataSource{
+    
+    var currentGuesses: [[Character?]] {
+        return guesses
+    }
+    
+}
