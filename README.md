@@ -1,6 +1,6 @@
 ## wordall
 
-## Define
+## Definition
 <br> 
 
 It is a Wordall -Custom Keyboard- app.
