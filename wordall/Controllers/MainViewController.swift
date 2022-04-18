@@ -16,7 +16,8 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    let correctAnswer = "After"
+    let answer = ["after", "later", "bloke", "there", "ultra"]
+    var correctAnswer = ""
     
     private var guesses: [[Character?]] = Array(
         repeating: Array(repeating: nil, count: 5),
@@ -27,10 +28,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        view.backgroundColor = UIColor(red: 0.00, green: 0.05, blue: 0.09, alpha: 1.00)
         view.backgroundColor = UIColor(red: 0.06, green: 0.07, blue: 0.05, alpha: 1.00)
-
+        
+//        correctAnswer = answer.randomElement() ?? "after"
+        correctAnswer = "after"
         addChildren()
 
     }
@@ -105,4 +106,27 @@ extension MainViewController: BoardViewControllerDataSource{
         return guesses
     }
     
+    func boxColor(at indexPath: IndexPath) -> UIColor? {
+        
+        let rowIndex = indexPath.section
+        
+        let count = guesses[rowIndex].compactMap({ $0 }).count
+        
+            guard count == 5 else {
+                return nil
+            }
+        
+        let indexedAnswer = Array(correctAnswer)
+        
+            guard let letter = guesses[indexPath.section][indexPath.row],
+                  indexedAnswer.contains(letter) else {
+                return nil
+            }
+        
+            if indexedAnswer[indexPath.row] == letter{
+                return .systemGreen
+            }
+        
+        return .systemOrange
+    }
 }
