@@ -1,5 +1,3 @@
-## wordall
-
 # Definition
 <br> 
 
