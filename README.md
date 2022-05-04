@@ -4,6 +4,7 @@
 <br> 
 
 ## Wordall Game
+<br> 
 
  A word consisting of 5 boxes and 5 letters is given randomly. A custom keyboard has been created. Using the keyboard; The letters are green if they are correct, and orange if they are incorrect. Orange indicates that that row is not that letter. If the last line is correct, all the boxes will turn green and the user has managed to find the word.
 
